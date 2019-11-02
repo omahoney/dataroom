@@ -1,0 +1,41 @@
+﻿version: '2'
+services:
+  dataroom6_db:
+    container_name: dataroom6_db
+    image: postgres:10.3
+    env_file:
+      - .env_dev
+    volumes:
+      - ../data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+  dataroom6_app:
+    container_name: dataroom6_app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env_dev
+    links:
+      - dataroom6_db
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    environment:
+      - WEBPACKER_DEV_SERVER_HOST=webpack_dev_server
+
+  webpack_dev_server:
+    container_name: webpack-dev-server
+    build: .
+    command: ./bin/webpack-dev-server
+    env_file:
+      - .env_dev
+    volumes:
+      - .:/app
+    links:
+      - dataroom6_app
+    ports:
+      - "3035:3035"
+    environment:
+      - WEBPACKER_DEV_SERVER_HOST=0.0.0.0

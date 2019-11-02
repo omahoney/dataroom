@@ -1,0 +1,35 @@
+﻿version: '2'
+services:
+  dataroom6_db:
+    container_name: dataroom6_db
+    image: postgres:10.3
+    restart: always
+    env_file:
+      - .env_prod
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    ports:
+      - "5432:5439"
+  dataroom6_app:
+    container_name: dataroom6_app
+    image: benedictatortot/dataroom:dataroom6_app
+    restart: always
+    env_file:
+      - .env_prod
+    links:
+      - dataroom6_db
+    volumes:
+      - ./storage:/app/storage
+      - ./log:/app/lo
+  dataroom6_web:
+    container_name: dataroom6_web
+    image: benedictatortot/dataroom:dataroom6_web
+      - .env_prod
+    links:
+      - dataroom6_app
+    volumes_from:
+      - dataroom6_app
+networks:
+  default:
+    external:
+      name: nginx-proxy

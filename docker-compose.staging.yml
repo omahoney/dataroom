@@ -1,0 +1,35 @@
+version: '2'
+services:
+  dataroom6_db:
+    container_name: dataroom6_db
+    image: postgres:10.3
+    env_file:
+      - .env_prod
+    volumes:
+      - ../data:/var/lib/postgresql/data
+  dataroom6_app:
+    container_name: dataroom6_app
+    build:
+      context: .
+      dockerfile: ./Dockerfile_prod
+    env_file:
+      - .env_prod
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    links:
+      - dataroom6_db
+  dataroom6_web:
+    container_name: dataroom6_web
+    env_file:
+      - .env_prod
+    links:
+      - dataroom6_app
+    build:
+      context: .
+      dockerfile: ./config/webserver/Dockerfile-nginx
+    volumes_from:
+      - dataroom6_app
+    ports:
+        - "80:80"
