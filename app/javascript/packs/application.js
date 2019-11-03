@@ -15,3 +15,15 @@ require("channels")
 //
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
+
+import "bootstrap"
+import "popper.js/dist/popper.js"
+import "../stylesheets"
+import "../plugins"
+import "../images"
+
+document.addEventListener("turbolinks:load", () => {
+    $(' [data-toggle="tooltip"]').tooltip()
+    $(' [data-toggle="popover"]').tooltip()
+})
+
