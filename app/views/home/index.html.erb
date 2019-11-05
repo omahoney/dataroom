@@ -1,2 +1,36 @@
-<h1>Home#index</h1>
-<p>Find me in app/views/home/index.html.erb</p>
+<% if user_signed_in? %>
+
+  <div class="card w-50 mx-auto">
+    <div class="card-header">
+      Select a Repository
+    </div>
+    <div class="card-body">
+
+      <div style="float:right">
+        <%= form_tag({:controller => "home", :action => "index"}, :method => "get")  do %>
+          <%= select_tag "filter", options_for_select([ "Active", "All" ], params[:filter]), {:onchange => 'this.form.submit()'}  %>
+        <% end %>
+      </div>
+      <div class="table-responsive">
+        <table id="repository" class="table table-striped table-bordered table-hover">
+
+          <tbody>
+
+          <% if @user.roles.any? %>
+            <% @user.roles.each do |role| %>
+              <tr><td>
+                <%= link_to role.company.name, { :controller => 'home', :action => 'company_session', :id => role.company.id }, :method => :get %>
+              </td></tr>
+            <% end %>
+          <% else %>
+            <tr><td>You have no associated Company.</td></tr>
+          <% end %>
+
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+<% end %>
