@@ -1,0 +1,76 @@
+<div class="page-header">
+
+  <%= link_to company_resolutions_path, :class => 'btn btn-primary float-right' do %>
+    <span class="fa fa-list-alt"></span>
+    List
+  <% end %>
+  <% if current_user.editor? %>
+    <%= link_to edit_company_resolution_path(@company, @resolution), :class => 'btn btn-primary float-right' do %>
+      <span class="fa fa-edit"></span>
+      Edit
+    <% end %>
+  <% end %>
+  <h1>Show Resolution</h1>
+</div>
+
+<div class="card">
+  <div class="card-header border-success">
+    Show Resolution - <%= @resolution.title %>
+  </div>
+  <div class="card-body">
+
+    <ul class="list-unstyled row">
+
+      <li class="col-sm-4 font-weight-bold">Doc date:</li>
+      <li class="col-sm-8"><%= @resolution.doc_date %></li>
+
+      <li class="col-sm-4 font-weight-bold">Description:</li>
+      <li class="col-sm-8"><%= @resolution.description %></li>
+
+      <li class="col-sm-4 font-weight-bold">Status:</li>
+      <li class="col-sm-8"><%= @resolution.status %></li>
+
+      <li class="col-sm-4 font-weight-bold">Party:</li>
+      <li class="col-sm-8"><%= @resolution.party %></li>
+
+      <li class="col-sm-4 font-weight-bold">Type:</li>
+      <li class="col-sm-8"><%= @resolution.res_type %></li>
+
+      <li class="col-sm-4 font-weight-bold">Notes:</li>
+      <li class="col-sm-8"><%= @resolution.notes %></li>
+
+    </ul>
+
+  </div>
+</div>
+
+<br/>
+<br/>
+<% if @resolution.resolution_document.attached? %>
+  <object data= "<%= rails_blob_path(@resolution.resolution_document, disposition: "resolution_document") %>"
+          type="application/pdf"
+          class="pdf"
+          width="1000"
+          height="1000">
+    <p>It appears you don't have a PDF plugin for this browser.</p>
+  </object>
+  <br/>
+
+  <% if @resolution.resolution_document.previewable? %>
+    <%= link_to(image_tag( @resolution.resolution_document.preview(resize: "400x400>")),  rails_blob_path( @resolution.resolution_document, disposition: "resolution_document")) %>
+  <% elsif @resolution.resolution_document.variable? %>
+    <%= link_to(image_tag( @resolution.resolution_document.variant(resize: "400x400")), rails_blob_path( @resolution.resolution_document, disposition: "resolution_document"))%>
+  <% else %>
+  <% end %>
+  <%= link_to "Download file", rails_blob_path(@resolution.resolution_document, disposition: "resolution_document") %>
+<% else %>
+  <div class="card w-50 mx-auto">
+    <div class="card-header">
+      No Document Attached
+    </div>
+  </div>
+  </div>
+<% end %>
+<br/>
+<br/>
+<br/>

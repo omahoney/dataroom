@@ -1,0 +1,80 @@
+<div class="page-header">
+  <% if current_user.editor? %>
+    <%= link_to new_company_stockplan_path, :class => 'btn btn-primary float-right' do %>
+      <span class="fa fa-plus"></span>
+      New Plan
+    <% end %>
+  <% end %>
+  <%= link_to dashboard_company_stockplans_path, :class => 'btn btn-primary float-right' do %>
+    <span class="fa fa-tachometer-alt"></span>
+    Dashboard
+  <% end %>
+
+  <h1>Stock Series</h1>
+</div>
+
+<div class="table-responsive-lg">
+  <table id="stockplansTable" class="table table-striped table-bordered table-hover table-sm" data-turbolinks="false" >
+    <thead>
+    <tr>
+      <th>Stock<br/>Class</th>
+      <th>Series</th>
+      <th>Date<br/>Authorized</th>
+      <th>Par<br/>Value</th>
+      <th>Shares<br/>Authorized</th>
+      <th>Shares<br/>Issuable</th>
+      <th>Shares<br/>Reserved</th>
+      <th>Board <br/>Resolution</th>
+      <th>Board <br/>Date</th>
+      <th>Rights</th>
+      <th>Notes</th>
+      <th>Compliance</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <% @stockplans.each do |stockplan| %>
+    <tr>
+      <td><%= stockplan.stock_class %></td>
+      <td><%= stockplan.series %></td>
+      <td><%= stockplan.date_authorized %></td>
+      <td align="right"><%= number_to_currency(stockplan.par_value, precision: 3) %></td>
+      <td align="right"><%= number_with_delimiter(stockplan.shares_authorized, :delimiter => ',') %></td>
+      <td align="right"><%= number_with_delimiter(stockplan.shares_issuable, :delimiter => ',') %></td>
+      <td align="right"><%= number_with_delimiter(stockplan.shares_reserved, :delimiter => ',') %></td>
+
+      <td align="center">
+        <%= link_to company_resolution_path(@company, stockplan.resolution_id) do %><%= stockplan.resolution.title %><% end %>
+      </td>
+      <td><%= stockplan.resolution.doc_date %></td>
+
+      <td><%= stockplan.rights %></td>
+      <td><%= stockplan.notes %></td>
+
+      <% if stockplan.stockplan_document.attached?  %>
+        <td align="center">
+          <%= link_to image_pack_tag("pdf_icon.png"), company_stockplan_path(@company, stockplan) %>
+        </td>
+      <% else %>
+        <td align="center">
+          <%= link_to company_stockplan_path(@company, stockplan) do %>
+            <span class="fa fa-ban"></span>
+          <% end %>
+        </td>
+      <% end %>
+    </tr>
+      </tbody>
+
+    <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div class="page-header">
+  <% if current_user.editor? %>
+    <%= link_to new_company_stockplan_path, :class => 'btn btn-primary float-right' do %>
+      <span class="fa fa-plus"></span>
+      New Plan
+    <% end %>
+  <% end %>
+</div>

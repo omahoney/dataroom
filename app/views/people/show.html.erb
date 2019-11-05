@@ -1,0 +1,76 @@
+<div class="page-header">
+<%= render 'layouts/backbutton' %>
+<%= link_to company_people_path, :class => 'btn btn-primary float-right' do %>
+    <span class="fa fa-list-alt"></span>
+    List
+<% end %>
+
+  <% if current_user.editor? %>
+<%= link_to edit_company_person_path(@company, @person), :class => 'btn btn-primary float-right' do %>
+  <span class="fa fa-edit"></span>
+  Edit
+<% end %>
+  <% end %>
+
+<h1>Show Person</h1>
+</div>
+
+<div class="card-group card border-success mb-3">
+<div class="card">
+  <div class="card-header border-success">Show Person - <%= @person.name %></div>
+  <div class="card-body">
+
+    <ul class="list-unstyled row">
+
+<li class="col-sm-4 font-weight-bold">First name:</li>
+<li class="col-sm-8"><%= @person.first_name %></li>
+
+<li class="col-sm-4 font-weight-bold">Last name:</li>
+<li class="col-sm-8"><%= @person.last_name %></li>
+
+<li class="col-sm-4 font-weight-bold">Title:</li>
+<li class="col-sm-8"><%= @person.title %></li>
+
+<li class="col-sm-4 font-weight-bold">Company name:</li>
+<li class="col-sm-8"><%= @person.company_name %></li>
+
+<li class="col-sm-4 font-weight-bold">Person type:</li>
+<li class="col-sm-8"><%= @person.person_type %></li>
+
+    </ul>
+
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header border-success">Address</div>
+  <div class="card-body">
+
+    <ul class="list-unstyled row">
+
+      <li class="col-sm-4 font-weight-bold">Address:</li>
+      <li class="col-sm-8"><%= @person.address %></li>
+
+      <li class="col-sm-4 font-weight-bold">City:</li>
+      <li class="col-sm-8"><%= @person.city %></li>
+
+      <li class="col-sm-4 font-weight-bold">State:</li>
+      <li class="col-sm-8"><%= @person.state %></li>
+
+      <li class="col-sm-4 font-weight-bold">Zip code:</li>
+      <li class="col-sm-8"><%= @person.zip %></li>
+
+      <li class="col-sm-4 font-weight-bold">Country:</li>
+      <li class="col-sm-8"><%= @person.country %></li>
+
+      <li class="col-sm-4 font-weight-bold">Email:</li>
+      <li class="col-sm-8"><%= @person.email %></li>
+
+      <li class="col-sm-4 font-weight-bold">Phone:</li>
+      <li class="col-sm-8"><%= @person.phone %></li>
+
+    </ul>
+  </div>
+</div>
+
+</div>

@@ -1,0 +1,57 @@
+
+
+<div class="page-header">
+  <%= link_to company_optionplans_path, :class => 'btn btn-primary' do %>
+      <span class="fa fa-zoom-in"></span>
+      Plans List
+  <% end %>
+  <h1>Option Plans Dashboard</h1>
+</div>
+
+
+<div class = "row text-center" >
+  <div class = "col-md-6">
+    <%= options_issuable_pie_chart %>
+    <br/>
+    <b>Issuable</b>
+  </div>
+  <div class = "col-md-6">
+    <%= options_authorized_pie_chart %>
+    <br/>
+    <b>Authorized</b>
+  </div>
+</div>
+
+
+
+<div class = "row">
+  <div class = "col-md-4">
+    <%= options_issuable_column_chart %>
+  </div>
+  <div class = "col-md-4">
+    <%= options_reserved_column_chart %>
+  </div>
+  <div class = "col-md-4">
+    <%= options_authorized_column_chart %>
+  </div>
+</div>
+<div class = "row text-center">
+  <div class = "col-md-4" >
+    <h4>Issuable</h4>
+  </div>
+  <div class = "col-md-4">
+    <h4>Reserved</h4>
+  </div>
+  <div class = "col-md-4">
+    <h4>Authorized</h4>
+  </div>
+</div>
+
+<div class="row text-center">
+  <div class = "col-md-12">
+    <h3>Option Plans</h3>
+  </div>
+</div>
+
+
+

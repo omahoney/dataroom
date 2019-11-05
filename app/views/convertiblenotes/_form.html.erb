@@ -1,0 +1,41 @@
+
+<%= simple_form_for [@company, @convertiblenote] do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+  <div class="pull-right"><%= f.error_notification %>
+    <%= link_to new_company_person_path, :class => 'btn btn-primary btn-sm float-right' do %>
+      <span class="fa fa-plus"></span>
+      Person
+    <% end %>
+  </div>
+  <div class="form-inputs">
+    <%= f.input :person_id do %>
+      <%= f.select :person_id, Person.where(company_id: @company.id).order('name ASC').all.map{ |i|[i.name, i.id] }, :selected => @convertiblenote.person_id, :include_blank => "Choose a name"  %>
+    <% end %>
+    <%= f.input :stockplan_id do %>
+      <%= f.select :stockplan_id, options_for_select(Stockplan.where(company_id: @company.id).map{ |c|[c.series, c.id] }, f.object.stockplan_id), :selected => @convertiblenote.stockplan_id, :include_blank => "Choose a Series"  %>
+    <% end %>
+    <%= f.input :agreement_date, :include_blank => true, as: :string, input_html: { class: "datepicker" }  %>
+    <%= f.input :note_type, collection: ["Convertible", "SAFE", "Debt"] %>
+    <%= f.input :note_amount %>
+    <%= f.input :note_date, :include_blank => true, as: :string, input_html: { class: "datepicker" }  %>
+    <%= f.input :maturity_date, :include_blank => true, as: :string, input_html: { class: "datepicker" }  %>
+    <%= f.input :interest_rate %>
+    <%= f.input :discount_rate %>
+    <%= f.input :share_cap %>
+    <%= f.input :qualified_finance %>
+    <%= f.input :conversion_date, :include_blank => true, as: :string, input_html: { class: "datepicker" }   %>
+    <%= f.input :converted %>
+    <%= f.input :status, collection: ["Pending", "Complete", "Void"]  %>
+    <%= f.input :active %>
+    <%= f.input :notes %>
+    <br/>
+    <%= f.file_field :convertiblenote_document %>
+  </div>
+  <br/>
+  <div class="form-actions">
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                company_convertiblenotes_path, :class => 'btn' %>
+  </div>
+<% end %>

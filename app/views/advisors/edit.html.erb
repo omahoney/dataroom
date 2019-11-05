@@ -1,0 +1,30 @@
+<div class="page-header">
+  <%= link_to company_advisors_path, :class => 'btn btn-primary float-right' do %>
+      <span class="fa fa-list-alt"></span>
+      List
+  <% end %>
+  <%= link_to company_advisor_path(@company, @advisor), :class => 'btn btn-primary float-right' do %>
+    <span class="fa fa-search"></span>
+    Show
+  <% end %>
+  <h1>Edit Advisor</h1>
+</div>
+
+<div class="card w-50 mx-auto">
+  <div class="card-header">
+    Edit Advisor - <%= @advisor.person.name %>
+  </div>
+  <div class="card-body">
+
+    <%= render 'form' %>
+
+    <hr/>
+    <% if current_user.editor? %>
+      <%= link_to company_advisor_path(@company, @advisor), :class => 'btn btn-danger float-right', method: :delete, data: { confirm: 'Are you sure?' } do %>
+        <span class="fa fa-exclamation-triangle"></span>
+        Delete
+      <% end %>
+    <% end %>
+
+  </div>
+</div>

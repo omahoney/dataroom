@@ -1,0 +1,92 @@
+<div class="page-header">
+  <%= link_to company_stockholders_path, :class => 'btn btn-primary float-right' do %>
+    <span class="fa fa-list-alt"></span>
+    List
+  <% end %>
+  <% if current_user.editor? %>
+    <%= link_to edit_company_stockholder_path(@company, @stockholder), :class => 'btn btn-primary float-right' do %>
+      <span class="fa fa-edit"></span>
+      Edit
+    <% end %>
+  <% end %>
+  <h1>Show Stockholder</h1>
+</div>
+
+
+<div class="card-group card border-success mb-3">
+  <div class="card">
+    <div class="card-header border-success">
+      <%= link_to company_person_path(@company, @stockholder.person_id) do %><%= @stockholder.person.name %><%end%>
+    </div>
+    <div class="card-body">
+
+      <ul class="list-unstyled row">
+
+        <li class="col-sm-4 font-weight-bold">Active:</li>
+        <li class="col-sm-8"><%= @stockholder.active %></li>
+
+        <li class="col-sm-4 font-weight-bold">Status:</li>
+        <li class="col-sm-8"><%= @stockholder.status %></li>
+
+        <li class="col-sm-4 font-weight-bold">Notes:</li>
+        <li class="col-sm-8"><%= @stockholder.notes %></li>
+
+      </ul>
+
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header border-success">Address</div>
+    <div class="card-body">
+
+      <ul class="list-unstyled row">
+        <li class="col-sm-4 font-weight-bold">Address:</li>
+        <li class="col-sm-8"><%= @stockholder.person.address %></li>
+        <li class="col-sm-4 font-weight-bold">City:</li>
+        <li class="col-sm-8"><%= @stockholder.person.city %></li>
+        <li class="col-sm-4 font-weight-bold">State:</li>
+        <li class="col-sm-8"><%= @stockholder.person.state %></li>
+        <li class="col-sm-4 font-weight-bold">Zip Code:</li>
+        <li class="col-sm-8 font-weight-bold"><%= @stockholder.person.zip %></li>
+        <li class="col-sm-4 font-weight-bold">Country:</li>
+        <li class="col-sm-8"><%= @stockholder.person.country %></li>
+        <li class="col-sm-4 font-weight-bold">Email:</li>
+        <li class="col-sm-8"><%= @stockholder.person.email %></li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+<br/>
+<br/>
+<% if @stockholder.stockholder_document.attached? %>
+  <object data= "<%= rails_blob_path(@stockholder.stockholder_document, disposition: "stockholder_document") %>"
+          type="application/pdf"
+          class="pdf"
+          width="1000"
+          height="1000">
+    <p>It appears you don't have a PDF plugin for this browser.</p>
+  </object>
+  <br/>
+  <br/>
+  <% if @stockholder.stockholder_document.previewable? %>
+    <%= link_to(image_tag( @stockholder.stockholder_document.preview(resize: "400x400>")),  rails_blob_path( @stockholder.stockholder_document, disposition: "stockholder_document")) %>
+  <% elsif @stockholder.stockholder_document.variable? %>
+    <%= link_to(image_tag( @stockholder.stockholder_document.variant(resize: "400x400")), rails_blob_path( @stockholder.stockholder_document, disposition: "stockholder_document"))%>
+  <% else %>
+  <% end %>
+  <%= link_to "Download file", rails_blob_path(@stockholder.stockholder_document, disposition: "stockholder_document") %>
+
+<% else %>
+  <div class="card w-50 mx-auto">
+    <div class="card-header">
+      No Document Attached
+    </div>
+  </div>
+  </div>
+<% end %>
+
+<br/>
+<br/>
+<br/>

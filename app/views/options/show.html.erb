@@ -1,0 +1,120 @@
+<div class="page-header">
+
+  <%= link_to company_options_path, :class => 'btn btn-primary float-right' do %>
+    <span class="fa fa-list-alt"></span>
+    List
+  <% end %>
+  <% if current_user.editor? %>
+    <%= link_to edit_company_option_path(@company, @option), :class => 'btn btn-primary float-right' do %>
+      <span class="fa fa-edit"></span>
+      Edit
+    <% end %>
+  <% end %>
+  <h1>Show option</h1>
+</div>
+
+<div class="card-group card border-success mb-3">
+  <div class="card">
+
+    <div class="card-header border-success">
+      Optionee:
+    </div>
+    <div class="card-body">
+
+      <ul class="list-unstyled row">
+
+        <li class="col-sm-4 font-weight-bold">Plan:</li>
+        <li class="col-sm-8"><%= link_to company_optionplan_path(@company, @option.optionplan_id) do %><%= @option.optionplan.plan_title %><%end%></li>
+
+        <li class="col-sm-4 font-weight-bold">Plan:</li>
+        <li class="col-sm-8"><%= link_to company_resolution_path(@company, @option.resolution_id) do %><%= @option.resolution.title %><%end%></li>
+
+        <li class="col-sm-4 font-weight-bold">Title:</li>
+        <li class="col-sm-8"><%= @option.title %></li>
+
+        <li class="col-sm-4 font-weight-bold">Grant date:</li>
+        <li class="col-sm-8"><%= @option.grant_date %></li>
+
+        <li class="col-sm-4 font-weight-bold">Option type:</li>
+        <li class="col-sm-8"><%= @option.option_type %></li>
+
+        <li class="col-sm-4 font-weight-bold">Early exercise:</li>
+        <li class="col-sm-8"><%= @option.early_exercise %></li>
+
+        <li class="col-sm-4 font-weight-bold">Vesting term:</li>
+        <li  class="col-sm-8"><%= @option.vesting_term %></li>
+
+
+
+        <li class="col-sm-4 font-weight-bold">Status:</li>
+        <li  class="col-sm-8"><%= @option.status %></li>
+
+        <li class="col-sm-4 font-weight-bold">Active:</li>
+        <li  class="col-sm-8"><%= @option.active %></li>
+
+        <li class="col-sm-4 font-weight-bold">Notes:</li>
+        <li class="col-sm-8"><%= @option.notes %></li>
+
+      </ul>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header border-success"><%= link_to company_person_path(@company, @option.person_id) do %><%= @option.person.name %><%end%></div>
+    <div class="card-body">
+      <ul class="list-unstyled row">
+        <li class="col-sm-4 font-weight-bold">Grant date:</li>
+        <li class="col-sm-8"><%= @option.grant_date %></li>
+
+        <li class="col-sm-4 font-weight-bold">Vesting term:</li>
+        <li  class="col-sm-8"><%= @option.vesting_term %></li>
+
+        <li class="col-sm-4 font-weight-bold">Vesting cliff:</li>
+        <li  class="col-sm-8"><%= @option.cliff %></li>
+
+        <li class="col-sm-4 font-weight-bold">Granted:</li>
+        <li class="col-sm-8"><%= @option.granted %></li>
+
+        <li class="col-sm-4 font-weight-bold">Exercised:</li>
+        <li class="col-sm-8"><%= @option.exercised %></li>
+
+        <li class="col-sm-4 font-weight-bold">FMV:</li>
+        <li class="col-sm-8"><%= link_to company_valuation_path(@company, @option.valuation_id) do %><%= @option.valuation.price %><%end%></li>
+
+        <li class="col-sm-4 font-weight-bold">Strike price:</li>
+        <li class="col-sm-8"><%= @option.strike_price %></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<br/>
+<br/>
+
+<% if @option.option_document.attached? %>
+  <object data= "<%= rails_blob_path(@option.option_document, disposition: "option_document") %>"
+          type="application/pdf"
+          class="pdf"
+          width="1000"
+          height="1000">
+    <p>It appears you don't have a PDF plugin for this browser.</p>
+  </object>
+  <br/>
+
+  <% if @option.option_document.previewable? %>
+    <%= link_to(image_tag( @option.option_document.preview(resize: "400x400>")),  rails_blob_path( @option.option_document, disposition: "option_document")) %>
+  <% elsif @option.option_document.variable? %>
+    <%= link_to(image_tag( @option.option_document.variant(resize: "400x400")), rails_blob_path( @option.option_document, disposition: "option_document"))%>
+  <% else %>
+  <% end %>
+  <%= link_to "Download file", rails_blob_path(@option.option_document, disposition: "option_document") %>
+<% else %>
+  <div class="card w-50 mx-auto">
+    <div class="card-header">
+      No Document Attached
+    </div>
+  </div>
+  </div>
+<% end %>
+<br/>
+<br/>
+<br/>
+

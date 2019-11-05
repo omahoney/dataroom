@@ -1,0 +1,27 @@
+
+<%= simple_form_for [@company, @stockholder] do |f| %>
+  <div class="pull-right"><%= f.error_notification %>
+    <%= link_to new_company_stockholder_path, :class => 'btn btn-primary btn-sm float-right' do %>
+      <span class="fa fa-plus"></span>
+      Person
+    <% end %>
+  </div>
+  <div class="form-inputs">
+    <%= f.input :person_id do %>
+      <%= f.select :person_id, Person.where(company_id: @company.id).order('name ASC').map{ |i|[i.name, i.id] }, :selected => @stockholder.person_id, :include_blank => "Choose a name"  %>
+    <% end %>
+    <br/>
+    <%= f.input :active %>
+    <%= f.input :status, collection: ["Pending", "Complete", "Void"] %>
+    <%= f.input :notes %>
+    <br/>
+    <%= f.file_field :stockholder_document %>
+    <br/>
+  </div>
+  <br/>
+  <div class="form-actions">
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                company_stockholders_path, :class => 'btn' %>
+  </div>
+<% end %>

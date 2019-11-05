@@ -1,0 +1,109 @@
+<div class="page-header">
+  <%= render 'layouts/backbutton' %>
+  <%= link_to company_shares_path, :class => 'btn btn-primary float-right' do %>
+    <span class="fa fa-list-alt"></span>
+    List
+  <% end %>
+  <% if current_user.editor? %>
+    <%= link_to edit_company_share_path(@company, @share), :class => 'btn btn-primary float-right' do %>
+      <span class="fa fa-edit"></span>
+      Edit
+    <% end %>
+  <% end %>
+
+  <h1>Show Share</h1>
+</div>
+
+
+<div class="card-group card border-success mb-3">
+  <div class="card">
+    <div class="card-header border-success">Shareholder: <%= link_to company_person_path(@company, @share.person_id) do %><%= @share.person.name %><%end%></div>
+    <div class="card-body">
+
+      <ul class="list-unstyled row">
+
+        <li class="col-sm-4 font-weight-bold">Reference:</li>
+        <li class="col-sm-8"><%= @share.reference %></li>
+
+        <li class="col-sm-4 font-weight-bold">Series:</li>
+        <li class="col-sm-8"><%= @share.stockplan.series %></li>
+
+        <li class="col-sm-4 font-weight-bold">Restricted:</li>
+        <li class="col-sm-8"><%= @share.restricted %></li>
+
+        <li class="col-sm-4 font-weight-bold">Certificate:</li>
+        <li class="col-sm-8"><%= @share.certificate %></li>
+
+        <li class="col-sm-4 font-weight-bold">Shares issued:</li>
+        <li class="col-sm-8"d><%= @share.shares_issued %></li>
+
+        <li class="col-sm-4 font-weight-bold">Share price:</li>
+        <li class="col-sm-8"><%= @share.share_price %></li>
+
+        <li class="col-sm-4 font-weight-bold">Issued date:</li>
+        <li class="col-sm-8"><%= @share.issued_date %></li>
+
+      </ul>
+
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header border-success">Compliance</div>
+    <div class="card-body">
+
+      <ul class="list-unstyled row">
+        <li class="col-sm-4 font-weight-bold">Domicile:</li>
+        <li class="col-sm-8"><%= @share.domicile %></li>
+
+        <li class="col-sm-4 font-weight-bold">Exemption:</li>
+        <li class="col-sm-8"><%= @share.exemption %></li>
+
+
+
+        <li class="col-sm-4 font-weight-bold">Status:</li>
+        <li class="col-sm-8"><%= @share.status %></li>
+
+        <li class="col-sm-4 font-weight-bold">Notes:</li>
+        <li class="col-sm-8"><%= @share.notes %></li>
+
+        <li class="col-sm-4 font-weight-bold">Active:</li>
+        <li class="col-sm-8"><%= @share.active %></li>
+
+        <li class="col-sm-4 font-weight-bold">Terminated date:</li>
+        <li class="col-sm-8"><%= @share.terminated_date %></li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+<br/>
+<br/>
+<% if @share.share_document.attached? %>
+  <object data= "<%= rails_blob_path(@share.share_document, disposition: "share_document") %>"
+          type="application/pdf"
+          class="pdf"
+          width="1000"
+          height="1000">
+    <p>It appears you don't have a PDF plugin for this browser.</p>
+  </object>
+  <br/>
+
+  <% if @share.share_document.previewable? %>
+    <%= link_to(image_tag( @share.share_document.preview(resize: "400x400>")),  rails_blob_path( @share.share_document, disposition: "share_document")) %>
+  <% elsif @share.share_document.variable? %>
+    <%= link_to(image_tag( @share.share_document.variant(resize: "400x400")), rails_blob_path( @share.share_document, disposition: "share_document"))%>
+  <% else %>
+  <% end %>
+  <%= link_to "Download file", rails_blob_path(@share.share_document, disposition: "share_document") %>
+
+<% else %>
+  <div class="card w-50 mx-auto">
+    <div class="card-header">
+      No Document Attached
+    </div>
+  </div>
+  </div>
+<% end %>
+<br/>
+<br/>

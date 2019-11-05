@@ -1,0 +1,28 @@
+<div class="page-header">
+  <%= link_to company_advisors_path, :class => 'btn btn-primary float-right' do %>
+    <span class="fa fa-list-alt"></span>
+    List
+  <% end %>
+  <%= link_to [@company, @valuation], :class => 'btn btn-primary float-right' do %>
+    <span class="fa fa-search"></span>
+    Show
+  <% end %>
+  <h1>Edit Valuation</h1>
+</div>
+
+<div class="card w-50 mx-auto">
+  <div class="card-header">
+    Edit Valuation
+  </div>
+  <div class="card-body">
+
+    <%= render 'form' %>
+
+    <hr/>
+    <%= link_to company_valuation_path(@company, @valuation), :class => 'btn btn-danger float-right', method: :delete, data: { confirm: 'Are you sure?' } do %>
+      <span class="fa fa-exclamation-triangle"></span>
+      Delete
+    <% end %>
+
+  </div>
+</div>

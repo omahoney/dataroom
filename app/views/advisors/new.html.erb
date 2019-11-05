@@ -1,0 +1,18 @@
+<div class="page-header">
+  <%= link_to company_advisors_path, :class => 'btn btn-primary float-right' do %>
+    <span class="fa fa-list-alt"></span>
+    List
+  <% end %>
+  <h1>New Advisor</h1>
+</div>
+
+<div class="card w-50 mx-auto">
+  <div class="card-header">
+    Add New Advisor
+  </div>
+  <div class="card-body">
+
+    <%= render 'form' %>
+
+  </div>
+</div>

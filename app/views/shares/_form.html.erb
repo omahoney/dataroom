@@ -1,0 +1,41 @@
+<%= simple_form_for [@company, @share] do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+  <div class="pull-right"><%= f.error_notification %>
+    <%= link_to new_company_person_path, :class => 'btn btn-primary btn-sm float-right' do %>
+      <span class="fa fa-plus"></span>
+      Person
+    <% end %>
+  </div>
+  <div class="form-inputs">
+    <%= f.input :person_id do %>
+      <%= f.select :person_id, Person.where(company_id: @company.id).order('name ASC').all.map{ |i|[i.name, i.id] }, :selected => @share.person_id, :include_blank => "Choose a Name"  %>
+    <% end %>
+    <%= f.input :reference %>
+    <%= f.input :certificate %>
+    <%= f.input :stockplan_id do %>
+      <%= f.select :stockplan_id, Stockplan.where(company_id: @company.id).map{ |o|[o.series, o.id] }, :selected => @share.stockplan_id, :include_blank => "Choose a Stock Plan"  %>
+    <% end %>
+    <%= f.input :restricted %>
+    <%= f.input :shares_issued %>
+    <%= f.input :share_price %>
+    <%= f.input :cash %>
+    <%= f.input :issued_date, as: :string, input_html: { class: "datepicker" }  %>
+    <%= f.input :active %>
+    <%= f.input :terminated_date, as: :string, :include_blank => true, input_html: { class: "datepicker" } %>
+    <%= f.input :domicile %>
+    <%= f.input :exemption %>
+    <%= f.input :status, collection: ["Pending", "Complete", "Void"] %>
+    <%= f.input :notes %>
+    <br/>
+    <%= f.file_field :share_document %>
+    <br/>
+    <br/>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                company_shares_path, :class => 'btn' %>
+  </div>
+<% end %>

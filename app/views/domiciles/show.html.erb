@@ -1,0 +1,93 @@
+<div class="page-header">
+  <%= link_to company_domiciles_path, :class => 'btn btn-primary float-right' do %>
+    <span class="fa fa-list-alt"></span>
+    List
+  <% end %>
+  <% if current_user.editor? %>
+    <%= link_to edit_company_domicile_path(@company, @domicile), :class => 'btn btn-primary float-right' do %>
+      <span class="fa fa-edit"></span>
+      Edit
+    <% end %>
+  <% end %>
+  <h1>Show Domicile</h1>
+</div>
+
+
+<div class="card-group card border-success mb-3">
+  <div class="card">
+    <div class="card-header border-success">Domicile</div>
+    <div class="card-body">
+
+      <ul class="list-unstyled row">
+
+        <li class="col-sm-4 font-weight-bold">Domicile:</li>
+        <li class="col-sm-8"><%= @domicile.domicile_locus %></li>
+
+        <li class="col-sm-4 font-weight-bold">Jurisdiction Number:</li>
+        <li class="col-sm-8"><%= @domicile.domicile_number %></li>
+
+        <li class="col-sm-4 font-weight-bold">Agent:</li>
+        <li class="col-sm-8"> <%= @domicile.agent %></li>
+
+        <li class="col-sm-4 font-weight-bold">Notes:</li>
+        <li class="col-sm-8"><%= @domicile.notes %></li>
+
+
+      </ul>
+
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header border-success">Address</div>
+    <div class="card-body">
+
+      <ul class="list-unstyled row">
+        <li class="col-sm-4 font-weight-bold">Address:</li>
+        <li class="col-sm-8"><%= @domicile.address %></li>
+        <li class="col-sm-4 font-weight-bold">City:</li>
+        <li class="col-sm-8"><%= @domicile.city %></li>
+        <li class="col-sm-4 font-weight-bold">County:</li>
+        <li class="col-sm-8"><%= @domicile.county %></li>
+        <li class="col-sm-4 font-weight-bold">State:</li>
+        <li class="col-sm-8"><%= @domicile.state %></li>
+        <li class="col-sm-4 font-weight-bold">Zip Code:</li>
+        <li class="col-sm-8"><%= @domicile.zip %></li>
+        <li class="col-sm-4 font-weight-bold">Country:</li>
+        <li class="col-sm-8"><%= @domicile.country %></li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+<br/>
+<br/>
+
+<% if @domicile.domicile_document.attached? %>
+  <object data= "<%= rails_blob_path(@domicile.domicile_document, disposition: "domicile_document") %>"
+          type="application/pdf"
+          class="pdf"
+          width="1000"
+          height="1000">
+    <p>It appears you don't have a PDF plugin for this browser.</p>
+  </object>
+  <br/>
+
+  <% if @domicile.domicile_document.previewable? %>
+    <%= link_to(image_tag( @domicile.domicile_document.preview(resize: "400x400>")),  rails_blob_path( @domicile.domicile_document, disposition: "domicile_document")) %>
+  <% elsif @domicile.domicile_document.variable? %>
+    <%= link_to(image_tag( @domicile.domicile_document.variant(resize: "400x400")), rails_blob_path( @domicile.domicile_document, disposition: "domicile_document"))%>
+  <% else %>
+  <% end %>
+  <%= link_to "Download file", rails_blob_path(@domicile.domicile_document, disposition: "domicile_document") %>
+<% else %>
+  <div class="card w-50 mx-auto">
+    <div class="card-header">
+      No Document Attached
+    </div>
+  </div>
+  </div>
+<% end %>
+<br/>
+<br/>
+<br/>

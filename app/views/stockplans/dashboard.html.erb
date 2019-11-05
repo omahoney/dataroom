@@ -1,0 +1,32 @@
+
+<div class="page-header">
+  <%= link_to company_stockplans_path, :class => 'btn btn-primary float-right' do %>
+    <span class="fa fa-list-alt"></span>
+    Plans List
+  <% end %>
+  <h1>Stock Series Dashboard</h1>
+  <br/>
+</div>
+
+
+<div class = "row text-center" >
+  <div class = "col-md-4">
+    <%= tag.div id: 'stockplanAuthorized-column-chart', data: { stockplans: stockplansAuthorized.to_json } %>
+    <br/>
+    <b>Authorized Shares</b>
+  </div>
+  <div class = "col-md-4">
+    <%= tag.div id: 'stockplanReserved-column-chart', data: { stockplans: stockplansReserved.to_json } %>
+    <br/>
+    <b>Reserved Shares</b>
+  </div>
+  <div class = "col-md-4">
+    <%= tag.div id: 'stockplanIssuable-column-chart', data: { stockplans: stockplansIssuable.to_json } %>
+    <br/>
+    <b>Shares Issuable</b>
+  </div>
+</div>
+
+
+
+

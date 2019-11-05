@@ -1,0 +1,27 @@
+<div class="page-header">
+  <%= render 'layouts/backbutton' %>
+  <%= link_to company_person_path(@company, @person), :class => 'btn btn-primary float-right' do %>
+    <span class="fa fa-info-sign"></span>
+    Show
+  <% end %>
+  <h1>Edit Person</h1>
+</div>
+
+<div class="card w-50 mx-auto">
+  <div class="card-header">
+    Edit Person - <%= @person.name %>
+  </div>
+  <div class="card-body">
+
+    <%= render 'form' %>
+
+    <hr/>
+
+      <%= link_to company_person_path(@company, @person), :class => 'btn btn-danger float-right', method: :delete, data: { confirm: 'Are you sure?' } do %>
+        <span class="fa fa-exclamation-triangle"></span>
+        Delete
+
+    <% end %>
+
+  </div>
+</div>

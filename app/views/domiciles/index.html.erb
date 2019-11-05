@@ -1,0 +1,59 @@
+<div class="page-header">
+  <% if current_user.editor? %>
+    <%= link_to new_company_domicile_path, :class => 'btn btn-primary float-right' do %>
+      <span class="fa fa-plus"></span>
+      New Domicile
+    <% end %>
+  <% end %>
+  <h1>Domiciles</h1>
+</div>
+
+<div class="table-responsive">
+  <table role='datatable' id="domicilesTable" class="table table-striped table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>Domicile locus</th>
+      <th>Type</th>
+      <th>Domicile number</th>
+      <th>Address</th>
+      <th>City</th>
+      <th>County</th>
+      <th>State</th>
+      <th>Zip</th>
+      <th>Country</th>
+      <th>Agent</th>
+      <th>Notes</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <% @domiciles.each do |domicile| %>
+      <tr>
+        <td><%= domicile.domicile_locus %></td>
+        <td><%= domicile.domicile_type %></td>
+        <td><%= domicile.domicile_number %></td>
+        <td><%= domicile.address %></td>
+        <td><%= domicile.city %></td>
+        <td><%= domicile.county %></td>
+        <td><%= domicile.state %></td>
+        <td><%= domicile.zip %></td>
+        <td><%= domicile.country %></td>
+        <td><%= domicile.agent %></td>
+        <td><%= domicile.notes %></td>
+        <td align="center">
+          <% if domicile.domicile_document.attached?  %>
+            <%= link_to image_pack_tag("pdf_icon.png"), company_domicile_path(@company, domicile) %>
+          <% else %>
+            <%= link_to company_domicile_path(@company, domicile) do %>
+              <span class="fa fa-ban"></span>
+            <% end %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+<br>
+

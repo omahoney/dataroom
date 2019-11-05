@@ -1,0 +1,69 @@
+<div class="page-header">
+
+  <%= link_to company_forms_path, :class => 'btn btn-primary float-right' do %>
+    <span class="fa fa-list-alt"></span>
+    List
+  <% end %>
+  <% if current_user.editor? %>
+    <%= link_to edit_company_form_path(@company, @form), :class => 'btn btn-primary float-right' do %>
+      <span class="fa fa-edit"></span>
+      Edit
+    <% end %>
+  <% end %>
+  <h1>Show Form Document</h1>
+</div>
+
+<div class="card">
+  <div class="card-header border-success">
+    Show Form Document
+  </div>
+  <div class="card-body">
+
+    <ul class="list-unstyled row">
+      <li class="col-sm-4 font-weight-bold">Ref:</li>
+      <li class="col-sm-8"><%= @form.ref %></li>
+
+      <li class="col-sm-4 font-weight-bold">Category:</li>
+      <li class="col-sm-8"><%= @form.category %></li>
+
+      <li class="col-sm-4 font-weight-bold">Description:</li>
+      <li class="col-sm-8"><%= @form.description %></li>
+
+      <li class="col-sm-4 font-weight-bold">Notes:</li>
+      <li class="col-sm-8"><%= @form.notes %></li>
+
+    </ul>
+  </div>
+</div>
+<br/>
+<br/>
+<% if @form.form_document.attached? %>
+  <object data= "<%= rails_blob_path(@form.form_document, disposition: "form_document") %>"
+          type="application/pdf"
+          class="pdf"
+          width="1000"
+          height="1000">
+    <p>It appears you don't have a PDF plugin for this browser.</p>
+  </object>
+  <br/>
+
+  <% if @form.form_document.previewable? %>
+    <%= link_to(image_tag( @form.form_document.preview(resize: "400x400>")),  rails_blob_path( @form.form_document, disposition: "form_document")) %>
+  <% elsif @form.form_document.variable? %>
+    <%= link_to(image_tag( @form.form_document.variant(resize: "400x400")), rails_blob_path( @form.form_document, disposition: "form_document"))%>
+  <% else %>
+  <% end %>
+  <%= link_to "Download file", rails_blob_path(@form.form_document, disposition: "form_document") %>
+
+<% else %>
+  <div class="card w-50 mx-auto">
+    <div class="card-header">
+      No Document Attached
+    </div>
+  </div>
+  </div>
+<% end %>
+<br/>
+<br/>
+<br/>
+<br/>

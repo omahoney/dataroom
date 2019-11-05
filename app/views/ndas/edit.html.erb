@@ -1,0 +1,27 @@
+<div class="page-header">
+  <%= link_to company_ndas_path, :class => 'btn btn-primary float-right' do %>
+    <span class="fa fa-list-alt"></span>
+    List
+  <% end %>
+  <%= link_to company_nda_path(@company, @nda), :class => 'btn btn-primary float-right' do %>
+    <span class="fa fa-search"></span>
+    Show
+  <% end %>
+  <h1>Edit NDA</h1>
+</div>
+
+<div class="card w-50 mx-auto">
+  <div class="card-header">
+    Edit NDA
+  </div>
+  <div class="card-body">
+<%= render 'form', nda: @nda %>
+
+<hr/>
+<%= link_to company_nda_path(@company, @nda), :class => 'btn btn-danger float-right', method: :delete, data: { confirm: 'Are you sure?' } do %>
+    <span class="fa fa-exclamation-triangle"></span>
+    Delete
+<% end %>
+
+  </div>
+</div>

@@ -1,0 +1,70 @@
+<div class="page-header">
+
+  <%= link_to company_directors_path, :class => 'btn btn-primary float-right' do %>
+    <span class="fa fa-list-alt"></span>
+    List
+  <% end %>
+  <% if current_user.editor? %>
+    <%= link_to edit_company_director_path(@company, @director), :class => 'btn btn-primary float-right' do %>
+      <span class="fa fa-edit"></span>
+      Edit
+    <% end %>
+  <% end %>
+  <h1>Show Director</h1>
+</div>
+
+<div class="card">
+  <div class="card-header border-success">
+    Show Director - <%= link_to company_person_path(@company, @director.person_id) do %><%= @director.person.name %><%end%>
+  </div>
+  <div class="card-body">
+
+    <ul class="list-unstyled row">
+
+      <li class="col-sm-4 font-weight-bold">Election:</li>
+      <li class="col-sm-8"><%= link_to company_resolution_path(@company, @director.resolution_id) do %><%= @director.resolution.title %><%end%></li>
+
+      <li class="col-sm-4 font-weight-bold">Director class:</li>
+      <li class="col-sm-8"><%= @director.director_class %></li>
+
+      <li class="col-sm-4 font-weight-bold">Term:</li>
+      <li class="col-sm-8"><%= @director.term %></li>
+
+      <li class="col-sm-4 font-weight-bold">Start date:</li>
+      <li class="col-sm-8"><%= @director.start_date %></li>
+
+    </ul>
+  </div>
+</div>
+<br/>
+<br/>
+<% if @director.director_document.attached? %>
+  <object data= "<%= rails_blob_path(@director.director_document, disposition: "director_document") %>"
+          type="application/pdf"
+          class="pdf"
+          width="1000"
+          height="1000">
+    <p>It appears you don't have a PDF plugin for this browser.</p>
+  </object>
+  <br/>
+  <br/>
+  <% if @director.director_document.previewable? %>
+    <%= link_to(image_tag( @director.director_document.preview(resize: "400x400>")),  rails_blob_path( @director.director_document, disposition: "director_document")) %>
+  <% elsif @director.director_document.variable? %>
+    <%= link_to(image_tag( @director.director_document.variant(resize: "400x400")), rails_blob_path( @director.director_document, disposition: "director_document"))%>
+  <% else %>
+  <% end %>
+  <%= link_to "Download file", rails_blob_path(@director.director_document, disposition: "director_document") %>
+
+<% else %>
+  <div class="card w-50 mx-auto">
+    <div class="card-header">
+      No Document Attached
+    </div>
+  </div>
+  </div>
+<% end %>
+
+<br/>
+<br/>
+<br/>

@@ -1,0 +1,49 @@
+<div class="page-header">
+  <% if current_user.editor? %>
+    <%= link_to new_company_valuation_path, :class => 'btn btn-primary float-right' do %>
+      <span class="fa fa-plus"></span>
+      New Valuation
+    <% end %>
+  <% end %>
+  <h1>List Valuations</h1>
+</div>
+
+<div class="table-responsive-lg">
+  <table role='datatable' id="valuationsTable" class="table table-striped table-bordered table-hover table-sm">
+    <thead>
+    <tr>
+      <th>Title</th>
+      <th>Series</th>
+      <th>Provider</th>
+      <th>Valuation date</th>
+      <th>Price</th>
+      <th>Event</th>
+      <th>Notes</th>
+      <th>View</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <% @valuations.each do |valuation| %>
+    <tr>
+      <td><%= valuation.title %></td>
+      <td><%= link_to company_stockplan_path(@company, valuation.stockplan_id) do %><%= valuation.stockplan.series %><% end %></td>
+      <td><%= valuation.provider %></td>
+      <td><%= valuation.valuation_date %></td>
+      <td><%= number_to_currency(valuation.price, precision: 3) %></td>
+      <td><%= valuation.event %></td>
+      <td><%= valuation.notes %></td>
+      <% if valuation.valuation_document.attached?  %>
+        <td align="center"><%= link_to image_pack_tag("pdf_icon.png"), company_valuation_path(@company, valuation) %></td>
+      <% else %>
+        <td align="center">
+          <%= link_to company_valuation_path(@company, valuation) do %>
+            <span class="fa fa-ban"></span>
+          <% end %>
+        </td>
+      <% end %>
+    </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>

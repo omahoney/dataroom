@@ -1,0 +1,33 @@
+
+<%= simple_form_for [@company, @stockplan] do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs">
+
+    <%= f.input :resolution_id do %>
+      <%= f.select :resolution_id, options_for_select(Resolution.where(company_id: @company.id).map{ |c|[c.title, c.id] }, f.object.resolution_id), :selected => @stockplan.resolution_id, :include_blank => "Choose authorizing resolution"  %>
+    <% end %>
+    <%= f.input :stock_class, collection: ["Common", "Preferred", "Other"] %>
+    <%= f.input :series %>
+    <%= f.input :date_authorized, :include_blank => true, as: :string, input_html: { class: "datepicker" }  %>
+    <%= f.input :par_value %>
+    <%= f.input :shares_authorized %>
+    <%= f.input :shares_issuable %>
+    <%= f.input :shares_reserved %>
+    <%= f.input :rights %>
+    <%= f.input :active %>
+    <%= f.input :status, collection: ["Pending", "Complete", "Void"] %>
+    <%= f.input :notes %>
+    <br/>
+    <%= f.file_field :stockplan_document %>
+    <br/>
+    <br/>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                company_stockplans_path, :class => 'btn' %>
+  </div>
+<% end %>

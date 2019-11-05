@@ -1,0 +1,27 @@
+
+<%= simple_form_for [@company, @nda] do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs">
+    <%= f.input :title %>
+    <%= f.input :nda_date, as: :string, input_html: { class: "datepicker" } %>
+    <%= f.input :last_name %>
+    <%= f.input :first_name %>
+    <%= f.input :company_name %>
+    <%= f.input :capacity, collection: ["Personal", "Corporate"] %>
+    <%= f.input :nda_type, collection: ["One-way", "Mutual", "Multi-party", "Reverse"] %>
+    <%= f.input :term %>
+    <%= f.input :status, collection: ["Investor", "Collaborator", "Contractor", "Employee", "Advisor", "Director", "Vendor", "Joint Venture"] %>
+    <%= f.input :country, priority: ["US"] %>
+    <%= f.input :notes %>
+<br/><br/>
+    <%= f.file_field :nda_document %>
+  </div>
+  <br/>
+  <div class="form-actions">
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                company_ndas_path, :class => 'btn' %>
+  </div>
+<% end %>

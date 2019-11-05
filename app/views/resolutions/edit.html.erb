@@ -1,0 +1,29 @@
+<div class="page-header">
+  <%= link_to company_resolutions_path, :class => 'btn btn-primary float-right' do %>
+    <span class="fa fa-list-alt"></span>
+    List
+  <% end %>
+  <%= link_to company_resolution_path(@company, @resolution), :class => 'btn btn-primary float-right' do %>
+    <span class="fa fa-search"></span>
+    Show
+  <% end %>
+  <h1>Edit Resolution</h1>
+</div>
+
+<div class="card w-50 mx-auto">
+  <div class="card-header">
+    Edit Resolution - <%= @resolution.title %>
+  </div>
+  <div class="card-body">
+
+    <%= render 'form' %>
+
+    <hr/>
+    <%= link_to company_resolution_path(@company, @resolution), :class => 'btn btn-danger float-right', method: :delete, data: { confirm: 'Are you sure?' } do %>
+      <span class="fa fa-exclamation-triangle"></span>
+      Delete
+    <% end %>
+
+  </div>
+</div>
+

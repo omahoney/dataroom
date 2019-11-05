@@ -1,0 +1,66 @@
+<div class="page-header">
+  <% if current_user.editor? %>
+    <%= link_to new_company_finance_path, :class => 'btn btn-primary float-right' do %>
+      <span class="fa fa-plus"></span>
+      New Finance
+    <% end %>
+  <% end %>
+
+  <h2>Financing Documents</h2>
+  <div style="float:right">
+    <%= form_tag({:controller => "finances", :action => "index"}, :method => "get")  do %>
+      <%= select_tag "filter", options_for_select(Stockplan.where(company_id: @company.id).all.map{ |i|[i.series, i.id] }.insert(0, "All"), params[:filter]), {:onchange => 'this.form.submit()'}  %>
+    <% end %>
+  </div>
+</div>
+
+<div class="table-responsive-lg">
+  <table role='datatable' id="financesTable" class="table table-striped table-bordered table-hover table-sm">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Date</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Stock Plan</th>
+      <th>Notes</th>
+      <th>Status</th>
+      <th>View</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <% @finances.each do |finance| %>
+    <tr>
+      <td><%= finance.title %></td>
+      <td><%= link_to company_person_path(@company, finance.person_id) do %><%= finance.person.name %><%end%></td>
+      <td><%= finance.doc_date %></td>
+      <td><%= finance.category %></td>
+      <td><%= finance.description %></td>
+      <td><%= link_to company_stockplan_path(@company, finance.stockplan_id) do %><%= finance.stockplan.series %><%end%></td>
+      <td><%= finance.notes %></td>
+      <td><%= finance.status %></td>
+      <% if finance.finance_document.attached?  %>
+        <td align="center"><%= link_to image_pack_tag("pdf_icon.png"), company_finance_path(@company, finance) %></td>
+      <% else %>
+        <td align="center"><%= link_to company_finance_path(@company, finance) do %>
+            <span class="fa fa-ban"></span>
+          <% end %>
+        </td>
+      <% end %>
+    </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div class="page-header">
+  <% if current_user.editor? %>
+    <%= link_to new_company_finance_path, :class => 'btn btn-primary float-right' do %>
+      <span class="fa fa-plus"></span>
+      New Finance
+    <% end %>
+  <% end %>
+</div>
+

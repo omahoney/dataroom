@@ -1,0 +1,35 @@
+
+<%= simple_form_for [@company, @officer] do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+  <div class="pull-right"><%= f.error_notification %>
+    <%= link_to new_company_person_path, :class => 'btn btn-primary btn-sm float-right' do %>
+      <span class="fa fa-plus"></span>
+      Person
+    <% end %>
+  </div>
+  <div class="form-inputs">
+
+    <%= f.input :person_id do %>
+      <%= f.select :person_id, Person.where(company_id: @company.id).order('name ASC').all.map{ |i|[i.name, i.id] }, :selected => @officer.person_id, :include_blank => "Choose a name"  %>
+    <% end %>
+    <br/>
+    <br/>
+    <%= f.input :resolution_id do %>
+      <%= f.select :resolution_id, Resolution.where(company_id: @company.id).order('title ASC').all.map{ |i|[i.title, i.id] }, :selected => @officer.resolution_id, :include_blank => "Choose Resolution"  %>
+    <% end %>
+    <br/><br/>
+    <%= f.input :title %>
+    <%= f.input :jx_required %>
+    <%= f.input :notes %>
+    <br/>
+    <%= f.file_field :officer_document %>
+    <br/>
+  </div>
+  <br/>
+  <div class="form-actions">
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                company_officers_path, :class => 'btn' %>
+  </div>
+<% end %>

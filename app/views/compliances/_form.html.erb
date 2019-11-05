@@ -1,0 +1,24 @@
+<%= simple_form_for [@company, @compliance] do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs">
+    <%= f.input :domicile_id do %>
+      <%= f.select :domicile_id, Domicile.where(company_id: @company.id).all.map{ |i|[i.domicile_locus, i.id] }, :selected => @compliance.domicile_id, :include_blank => "Choose a domicile"  %>
+    <% end %>
+    <%= f.input :title %>
+    <%= f.input :doc_date, as: :string, input_html: { class: "datepicker" } %>
+    <%= f.input :description %>
+    <%= f.input :status, collection: ["Pending", "Completed", "Void"] %>
+    <%= f.input :jurisdiction %>
+    <%= f.input :notes %>
+    <br/>
+    <%= f.file_field :compliance_document %>
+  </div>
+  <br/>
+  <div class="form-actions">
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                company_compliances_path, :class => 'btn' %>
+  </div>
+<% end %>

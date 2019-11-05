@@ -1,0 +1,39 @@
+<div class="page-header">
+  <%= link_to company_dashboards_path, :class => 'btn btn-primary float-right' do %>
+      <span class="fa fa-list-alt"></span>
+      List
+  <% end %>
+
+  <% if current_user.editor? %>
+  <%= link_to edit_company_dashboard_path(@company, @dashboard), :class => 'btn btn-primary float-right' do %>
+    <span class="fa fa-edit"></span>
+    Edit
+  <% end %>
+  <% end %>
+
+  <h1>Show Dashboard</h1>
+</div>
+
+<div class="card">
+  <div class="card-header border-success">
+    Show <%= @dashboard.description %>
+  </div>
+  <div class="card-body">
+
+    <ul class="list-unstyled row">
+
+  <li class="col-sm-4 font-weight-bold">Contact:</li>
+  <li class="col-sm-8"><%= @dashboard.contact %></li>
+
+  <li class="col-sm-4 font-weight-bold">Deadline:</li>
+  <li class="col-sm-8"><%= @dashboard.deadline %></li>
+
+  <li class="col-sm-4 font-weight-bold">Completed:</li>
+  <li class="col-sm-8"><%= @dashboard.completed %></li>
+
+  <li class="col-sm-4 font-weight-bold">Notes:</li>
+  <li class="col-sm-8"><%= @dashboard.notes %></li>
+
+</ul>
+  </div>
+</div>

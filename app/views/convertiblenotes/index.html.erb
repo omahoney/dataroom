@@ -1,0 +1,87 @@
+<div class="page-header">
+  <% if current_user.editor? %>
+    <%= link_to new_company_convertiblenote_path, :class => 'btn btn-primary float-right' do %>
+      <span class="fa fa-plus"></span>
+      New Note
+    <% end %>
+  <% end %>
+  <h2>Notes</h2>
+  <div style="float:right">
+    <%= form_tag({:controller => "convertiblenotes", :action => "index"}, :method => "get")  do %>
+      <%= select_tag "filter", options_for_select(Stockplan.where(company_id: @company.id).all.map{ |i|[i.series, i.id] }.insert(0, "All"), params[:filter]), {:onchange => 'this.form.submit()'}  %>
+    <% end %>
+  </div>
+</div>
+
+<div class="table-responsive-lg">
+  <table role='datatable' id="convertiblenotesTable" class="table table-striped table-bordered table-hover table-sm">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Agreement date</th>
+      <th>Note type</th>
+      <th>Note amount</th>
+      <th>Note date</th>
+      <th>Maturity date</th>
+      <th>Note amout</th>
+      <th>Interest rate</th>
+      <th>Discount</th>
+      <th>Share cap</th>
+      <th>Qualified finance</th>
+      <th>Conversion Series</th>
+      <th>Converted</th>
+      <th>Status</th>
+      <th>Active</th>
+      <th>Notes</th>
+      <th>View</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <% @convertiblenotes.each do |convertiblenote| %>
+    <tr>
+      <td>
+        <%= link_to company_person_path(@company, convertiblenote.person_id) do %>
+          <%= convertiblenote.person.name %>
+        <%end%>
+      </td>
+      <td><%= convertiblenote.agreement_date %></td>
+      <td><%= convertiblenote.note_type %></td>
+      <td><%= convertiblenote.note_amount %></td>
+      <td><%= convertiblenote.note_date %></td>
+      <td><%= convertiblenote.maturity_date %></td>
+      <td><%= number_to_currency(convertiblenote.note_amount, precision: 0) %></td>
+      <td><%= number_to_percentage(convertiblenote.interest_rate, precision: 2) %></td>
+      <td><%= number_to_percentage(convertiblenote.discount_rate, precision: 2) %></td>
+      <td><%= number_to_currency(convertiblenote.share_cap, precision: 3) %></td>
+      <td><%= number_to_currency(convertiblenote.qualified_finance, precision: 0) %></td>
+      <td>
+        <%= link_to company_stockplan_path(@company, convertiblenote.stockplan_id) do %>
+          <%= convertiblenote.stockplan.series %>
+        <%end%>
+      </td>
+      <td align="center">
+        <% if convertiblenote.converted == true  %>
+          <span class="fa fa-ok" style="color: green"></span>
+        <% else %>
+          <span class="fa fa-remove" style="color: red"></span>
+        <% end %>
+      </td>
+      <td><%= convertiblenote.status %></td>
+      <td><%= convertiblenote.active %></td>
+      <td><%= convertiblenote.notes %></td>
+
+      <% if convertiblenote.convertiblenote_document.attached?  %>
+        <td align="center"><%= link_to image_pack_tag("pdf_icon.png"), company_convertiblenote_path(@company, convertiblenote) %></td>
+      <% else %>
+        <td align="center">
+          <%= link_to company_convertiblenote_path(@company, convertiblenote) do %>
+            <span class="fa fa-ban"></span>
+          <% end %>
+        </td>
+        </tr>
+      <% end %>
+    <% end %>
+    </tbody>
+  </table>
+</div>

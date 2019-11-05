@@ -1,0 +1,57 @@
+
+<div class="page-header">
+<% if current_user.editor? %>
+  <%= link_to new_company_compliance_path, :class => 'btn btn-primary float-right' do %>
+    <span class="fa fa-plus"></span>
+    New Compliance
+  <% end %>
+<% end %>
+<h1>Compliance</h1>
+</div>
+
+<div class="table-responsive-lg">
+  <table role='datatable' id="compliancesTable" class="table table-striped table-bordered table-hover table-sm">
+    <thead>
+    <tr>
+      <th>Domicile</th>
+      <th>Title</th>
+      <th>Date</th>
+      <th>Description</th>
+      <th>Status</th>
+      <th>Notes</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @compliances.each do |compliance| %>
+  <tr>
+      <td>
+        <%= link_to company_domicile_path(@company, compliance.domicile_id) do %>
+          <%= compliance.domicile.domicile_locus %>
+        <%end%>
+      </td>
+      <td><%= compliance.title %></td>
+      <td><%= compliance.doc_date %></td>
+      <td><%= compliance.description %></td>
+      <td><%= compliance.status %></td>
+      <td><%= compliance.notes %></td>
+    <% if compliance.compliance_document.attached?  %>
+      <td align="center"><%= link_to image_pack_tag("pdf_icon.png"), company_compliance_path(@company, compliance) %></td>
+    <% else %>
+      <td align="center">
+        <%= link_to company_compliance_path(@company, compliance) do %>
+          <span class="fa fa-ban"></span>
+        <% end %>
+      </td>
+      </tr>
+    <% end %>
+  <% end %>
+  </tbody>
+</table>
+</div>
+<script>
+  $(document).ready(function() {
+      $('#compliancesTable').DataTable();
+  } );
+</script>

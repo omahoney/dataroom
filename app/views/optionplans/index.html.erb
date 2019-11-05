@@ -1,0 +1,51 @@
+<div class="page-header">
+  <% if current_user.editor? %>
+    <%= link_to new_company_optionplan_path, :class => 'btn btn-primary float-right' do %>
+      <span class="fa fa-plus"></span>
+      New Option Plan
+    <% end %>
+  <% end %>
+  <h1>Option Plans</h1>
+</div>
+
+
+
+<div class="table-responsive-md">
+  <table role='datatable' id="optionplansTable" class="table table-striped table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>Stockplan</th>
+      <th>Resolution</th>
+      <th>Plan title</th>
+      <th>Plan date</th>
+      <th>Shares allocated</th>
+      <th>Notes</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <% @optionplans.each do |optionplan| %>
+    <tr>
+    <td><%= link_to company_stockplan_path(@company, optionplan.stockplan_id) do %><%= optionplan.stockplan.series %><% end %></td>
+    <td><%= link_to company_resolution_path(@company, optionplan.resolution_id) do %><%= optionplan.resolution.title %><% end %></td>
+    <td><%= optionplan.plan_title %></td>
+    <td><%= optionplan.plan_date %></td>
+    <td><%= optionplan.shares_allocated %></td>
+    <td><%= optionplan.notes %></td>
+    <td align="center">
+      <% if optionplan.optionplan_document.attached?  %>
+        <%= link_to image_pack_tag("pdf_icon.png"), company_optionplan_path(@company, optionplan) %>
+      <% else %>
+        <%= link_to company_optionplan_path(@company, optionplan) do %>
+          <span class="fa fa-search"></span>
+        <% end %>
+      <% end %>
+    </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+<br>
+

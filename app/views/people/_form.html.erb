@@ -1,0 +1,28 @@
+
+<%= simple_form_for [@company, @person] do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs">
+    <%= f.input :name %>
+    <%= f.input :first_name %>
+    <%= f.input :last_name %>
+    <%= f.input :title %>
+    <%= f.input :company_name %>
+    <%= f.input :address %>
+    <%= f.input :city %>
+    <%= f.input :state, collection: us_states %>
+    <%= f.input :zip %>
+    <%= f.input :country, priority: ["US"]  %>
+    <%= f.input :email %>
+    <%= f.input :phone %>
+    <%= f.input :person_type,  collection: ["Personal", "Corporate"] %>
+  </div>
+
+  <br/>
+  <div class="form-actions">
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                company_people_path, :class => 'btn' %>
+  </div>
+<% end %>

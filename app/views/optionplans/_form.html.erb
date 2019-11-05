@@ -1,0 +1,31 @@
+
+<%= simple_form_for [@company, @optionplan] do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs">
+
+    <%= f.input :stockplan_id do %>
+      <%= f.select :stockplan_id, options_for_select(Stockplan.where(company_id: @company.id).map{ |c|[c.series, c.id] }, f.object.stockplan_id), :selected => @optionplan.stockplan_id, :include_blank => "Choose a Series"  %>
+    <% end %>
+    <br/><br/>
+    <%= f.input :resolution_id do %>
+      <%= f.select :resolution_id, options_for_select(Resolution.where(company_id: @company.id).map{ |c|[c.title, c.id] }, f.object.resolution_id), :selected => @optionplan.resolution_id, :include_blank => "Choose a Resolution"  %>
+    <% end %>
+    <br/><br/>
+    <%= f.input :plan_title %>
+    <%= f.input :plan_date, as: :string, input_html: { class: "datepicker" } %>
+    <%= f.input :shares_allocated %>
+    <%= f.input :notes %>
+    <br/>    <br/>
+    <%= f.file_field :optionplan_document %>
+    <br/>
+    <br/>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                company_optionplans_path, :class => 'btn' %>
+  </div>
+<% end %>

@@ -1,0 +1,31 @@
+
+<div class="page-header">
+  <%= link_to company_options_path, :class => 'btn btn-primary float-right' do %>
+    <span class="fa fa-list-ul"></span>
+    Option List
+  <% end %>
+  <h2>Options Dashboard</h2>
+</div>
+
+<div class = "row text-center">
+  <div class = "col-md-12">
+    <h3>Total Options Issued</h3>
+    <%= tag.div id: 'optionOutstanding-column-chart', data: { options: options_outstanding.to_json } %>
+    <h3>Total: <%= number_with_delimiter(@options_granted.to_i) %></h3>
+  </div>
+</div>
+
+<hr/>
+
+<div class = "row text-center">
+  <div class = "col-md-6">
+    <h3>Total Options Issued</h3>
+    <%= tag.div id: 'optionOutstanding-pie-chart', data: { options: options_outstanding.to_json }, style: "height: 250px;" %>
+    <h3>Total: <%= number_with_delimiter(@options_granted.to_i) %></h3>
+  </div>
+  <div class = "col-md-6">
+    <h3>Options Status</h3>
+    <%= tag.div id: 'optionStatus-pie-chart', data: { options: options_status.to_json }, style: "height: 250px;" %>
+  </div>
+</div>
+

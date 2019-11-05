@@ -1,0 +1,100 @@
+<div class="page-header">
+
+  <%= link_to company_contracts_path, :class => 'btn btn-primary float-right' do %>
+    <span class="fa fa-list-ul"></span>
+    List
+  <% end %>
+  <% if current_user.editor? %>
+    <%= link_to edit_company_contract_path(@company, @contract), :class => 'btn btn-primary float-right' do %>
+      <span class="fa fa-edit"></span>
+      Edit
+    <% end %>
+  <% end %>
+  <h1>Show Contract</h1>
+</div>
+
+
+<div class="card-group card border-success mb-3">
+  <div class="card">
+    <div class="card-header border-success"><%= @contract.contractor %></div>
+    <div class="card-body">
+
+      <ul class="list-unstyled row">
+
+        <li class="col-sm-4 font-weight-bold">Start date:</li>
+        <li class="col-sm-8"><%= @contract.start_date %></li>
+
+        <li class="col-sm-4 font-weight-bold">End date:</li>
+        <li class="col-sm-8"><%= @contract.end_date %></li>
+
+        <li class="col-sm-4 font-weight-bold">Term:</li>
+        <li class="col-sm-8"><%= @contract.term %></li>
+
+        <li class="col-sm-4 font-weight-bold">Terms:</li>
+        <li class="col-sm-8"><%= @contract.terms %></li>
+
+        <li class="col-sm-4 font-weight-bold">Notes:</li>
+        <li class="col-sm-8"><%= @contract.notes %></li>
+
+      </ul>
+
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header bborder-success">Address</div>
+    <div class="card-body">
+
+      <ul class="list-unstyled row">
+        <li class="col-sm-4 font-weight-bold">Address:</li>
+        <li class="col-sm-8"><%= @contract.address %></li>
+
+        <li class="col-sm-4 font-weight-bold">City:</li>
+        <li class="col-sm-8"><%= @contract.city %></li>
+
+        <li class="col-sm-4 font-weight-bold">State:</li>
+        <li class="col-sm-8"><%= @contract.state %></li>
+
+        <li class="col-sm-4 font-weight-bold">Zip code:</li>
+        <li class="col-sm-8"><%= @contract.zip %></li>
+
+        <li class="col-sm-4 font-weight-bold">Country:</li>
+        <li class="col-sm-8"><%= @contract.country %></li>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<br/>
+<br/>
+<% if @contract.contract_document.attached? %>
+  <object data= "<%= rails_blob_path(@contract.contract_document, disposition: "contract_document") %>"
+          type="application/pdf"
+          class="pdf"
+          width="1000"
+          height="1000">
+    <p>It appears you don't have a PDF plugin for this browser.</p>
+  </object>
+  <br/>
+
+  <% if @contract.contract_document.previewable? %>
+    <%= link_to(image_tag( @contract.contract_document.preview(resize: "400x400>")),  rails_blob_path( @contract.contract_document, disposition: "contract_document")) %>
+  <% elsif @contract.contract_document.variable? %>
+    <%= link_to(image_tag( @contract.contract_document.variant(resize: "400x400")), rails_blob_path( @contract.contract_document, disposition: "contract_document"))%>
+  <% else %>
+  <% end %>
+  <%= link_to "Download file", rails_blob_path(@contract.contract_document, disposition: "contract_document") %>
+
+<% else %>
+  <div class="card w-50 mx-auto">
+    <div class="card-header">
+      No Document Attached
+    </div>
+  </div>
+  </div>
+<% end %>
+<br/>
+<br/>  <br/>
+<br/>
+

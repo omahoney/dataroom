@@ -1,0 +1,50 @@
+
+<div class="page-header">
+  <%= link_to company_shares_path, :class => 'btn btn-primary float-right' do %>
+    <span class="fa fa-list-alt"></span>
+    Shares List
+  <% end %>
+  <h2>Shares Dashboard</h2>
+</div>
+
+<div class = "row text-center" >
+  <div class = "col-md-12">
+    <br/>
+    <%= tag.div id: 'shareOwnership-pie-chart', data: { shares: shares_ownership.to_json }, style: "height: 300px;" %>
+  </div>
+</div>
+<div class = "row text-center" >
+  <div class = "col-md-12">
+    <br/>
+    <%= tag.div id: 'shareOwnership-column-chart', data: { shares: shares_ownership.to_json } %>
+    <br/>
+    <b>Ownership by Investor</b>
+  </div>
+</div>
+
+<hr/>
+
+
+<div class="row text-center">
+  <div class = "col-md-12">
+    <h3>Share Ledger</h3>
+    <hr/>
+  </div>
+
+<div class = "col-md-6">
+  <b>Shares outstanding: <%= number_with_delimiter(@shares_active.sum(:shares_issued).to_i) %> </b>
+  <br/>
+  <%= tag.div id: 'shareOutstanding-column-chart', data: { shares: shares_outstanding_by_series.to_json } %>
+  <br/>
+  <b>Shares by Series</b>
+</div>
+
+  <div class = "col-md-6">
+    <b>Shares authorized: <%= number_with_delimiter(@stockplans.sum(:shares_authorized).to_i) %> </b>
+    <br/>
+    <%= tag.div id: 'stockplanAuthorized-column-chart', data: { stockplans: stockplansAuthorized.to_json } %>
+    <br/>
+    <b>Shares by Series</b>
+  </div>
+
+</div>

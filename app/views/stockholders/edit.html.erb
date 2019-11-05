@@ -1,0 +1,30 @@
+<div class="page-header">
+  <%= link_to company_stockholders_path, :class => 'btn btn-primary float-right' do %>
+    <span class="fa fa-list-alt"></span>
+    List
+  <% end %>
+  <%= link_to company_stockholder_path(@company, @stockholder), :class => 'btn btn-primary float-right' do %>
+    <span class="fa fa-search"></span>
+    Show
+  <% end %>
+  <h1>Edit Stockholder</h1>
+</div>
+
+<div class="card w-50 mx-auto">
+  <div class="card-header">
+    Edit Stockholder - <%= @stockholder.person.name %>
+  </div>
+  <div class="card-body">
+
+    <%= render 'form' %>
+
+    <hr/>
+    <% if current_user.editor? %>
+      <%= link_to company_stockholder_path(@company, @stockholder), :class => 'btn btn-danger float-right', method: :delete, data: { confirm: 'Are you sure?' } do %>
+        <span class="fa fa-exclamation-triangle"></span>
+        Delete
+      <% end %>
+    <% end %>
+
+  </div>
+</div>

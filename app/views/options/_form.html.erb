@@ -1,0 +1,56 @@
+
+<%= simple_form_for [@company, @option] do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+  <div class="pull-right"><%= f.error_notification %>
+    <%= link_to new_company_person_path, :class => 'btn btn-primary btn-sm float-right' do %>
+      <span class="fa fa-plus"></span>
+      Person
+    <% end %>
+  </div>
+  <div class="form-inputs">
+
+    <%= f.input :person_id do %>
+      <%= f.select :person_id, Person.where(company_id: @company.id).order('name ASC').all.map{ |i|[i.name, i.id] }, :selected => @option.person_id, :include_blank => "Choose a Name"  %>
+    <% end %>
+    <br/>
+    <%= f.input :optionplan_id do %>
+      <%= f.select :optionplan_id, Optionplan.where(company_id: @company.id).map{ |o|[o.plan_title, o.id] }, :selected => @option.optionplan_id, :include_blank => "Choose an Option Plan"  %>
+    <% end %>
+    <%= f.input :resolution_id do %>
+      <%= f.select :resolution_id, Resolution.where(company_id: @company.id).map{ |r|[r.title, r.id] }, :selected => @option.resolution_id, :include_blank => "Choose a Resolution"  %>
+    <% end %>
+    <br/>
+    <br/>
+    <%= f.input :valuation_id do %>
+      <%= f.select :valuation_id, Valuation.where(company_id: @company.id).map{ |i|[i.title, i.id] }, :selected => @option.valuation_id, :include_blank => "Choose a Valuation"  %>
+    <% end %>
+    <br/>
+    <%= f.input :title %>
+    <%= f.input :grant_date, as: :string, input_html: { class: "datepicker" } %>
+    <%= f.input :option_type, collection: ["NSO", "ISO", "RSA", "Warrant"] %>
+    <%= f.input :early_exercise %>
+    <%= f.input :vesting_term %>
+    <%= f.input :granted %>
+    <%= f.input :exercised %>
+    <%= f.input :fmv %>
+    <%= f.input :strike_price %>
+    <%= f.input :status, collection: ["Pending", "Complete", "Void"] %>
+    <%= f.input :forfeited %>
+    <%= f.input :canceled %>
+    <%= f.input :outstanding %>
+    <%= f.input :cliff %>
+    <%= f.input :active %>
+    <%= f.input :notes %>
+    <br/>    <br/>
+    <%= f.file_field :option_document %>
+    <br/>
+    <br/>
+  </div>
+  <br/>
+  <div class="form-actions">
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                company_options_path, :class => 'btn' %>
+  </div>
+<% end %>

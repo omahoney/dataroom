@@ -1,0 +1,48 @@
+c<div class="page-header">
+  <% if current_user.editor? %>
+    <%= link_to new_company_form_path, :class => 'btn btn-primary float-right' do %>
+      <span class="fa fa-plus"></span>
+      New Form Document
+    <% end %>
+  <% end %>
+  <h1>Form Documents</h1>
+</div>
+
+<div class="table-responsive-lg">
+  <table role='datatable' id="formsTable" class="table table-striped table-bordered table-hover table-sm">
+    <thead>
+      <tr>
+        <th>Ref</th>
+        <th>Category</th>
+        <th>Description</th>
+        <th>Version</th>
+        <th>Doc date</th>
+        <th>Notes</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @forms.each do |form| %>
+    <tr>
+      <td><%= form.ref %></td>
+        <td><%= form.category %></td>
+        <td><%= form.description %></td>
+        <td><%= form.version %></td>
+        <td><%= form.doc_date %></td>
+        <td><%= form.notes %></td>
+        <% if form.form_document.attached?  %>
+          <td align="center"><%= link_to image_pack_tag("pdf_icon.png"), company_form_path(@company, form) %></td>
+        <% else %>
+          <td align="center">
+            <%= link_to company_form_path(@company, form) do %>
+              <span class="fa fa-ban"></span>
+            <% end %>
+          </td>
+        </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+

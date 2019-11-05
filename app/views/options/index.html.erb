@@ -1,0 +1,97 @@
+<div class="page-header">
+  <% if current_user.editor? %>
+    <%= link_to new_company_option_path, :class => 'btn btn-primary float-right' do %>
+      <span class="fa fa-plus"></span>
+      New Option
+    <% end %>
+  <% end %>
+  <%= link_to dashboard_company_options_path, :class => 'btn btn-primary float-right' do %>
+    <span class="fa fa-tachometer-alt"></span>
+    Dashboard
+  <% end %>
+  <h1>Options</h1>
+
+  <div style="float:right">
+    <%= form_tag({:controller => "options", :action => "index"}, :method => "get")  do %>
+      <%= select_tag "filter", options_for_select(Optionplan.where(company_id: @company.id).all.map{ |i|[i.plan_title, i.id] }.insert(0, "All"), params[:filter]), {:onchange => 'this.form.submit()'}  %>
+    <% end %>
+  </div>
+</div>
+
+<div class="table-responsive-md">
+  <table role='datatable' id="optionsTable" class="table table-striped table-bordered table-hover table-sm">
+    <thead>
+    <tr>
+      <th>Title</th>
+      <th>Grant date</th>
+      <th>Optionee</th>
+      <th>Resolution</th>
+      <th>Granted</th>
+      <th>Exercised</th>
+      <th>Strike price</th>
+      <th>Valuation<br/>FMV</th>
+      <th>Option type</th>
+      <th>Vesting term</th>
+      <th>Cliff</th>
+      <th>Months Vested</th>
+      <th>Vested Shares</th>
+      <th>Early exercise</th>
+      <th>Plan</th>
+      <th>Board<br/>Approval</th>
+      <th>Status</th>
+      <th>Active</th>
+      <th>Notes</th>
+      <th>View</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <% @options.each do |option| %>
+    <tr>
+      <td><%= option.title %></td>
+      <td><%= option.grant_date %></td>
+      <td><%= link_to company_person_path(@company, option.person_id) do %><%= option.person.name %><%end%></td>
+      <td><%= link_to company_resolution_path(@company, option.resolution_id) do %><%= option.resolution.title %><%end%></td>
+      <td><%= number_with_delimiter(option.granted, :delimiter => ',') %></td>
+      <td><%= number_with_delimiter(option.exercised, :delimiter => ',') %></td>
+      <td><%= number_to_currency(option.strike_price, precision: 3) %></td>
+      <td><%= link_to company_valuation_path(@company, option.valuation_id) do %><%= number_to_currency(option.valuation.price, precision: 3)  %><%end%></td>
+      <td><%= option.option_type %></td>
+      <td><%= option.vesting_term %></td>
+      <td><%= option.cliff %></td>
+      <td><%= option.vestedMonths %></td>
+      <td><%= number_with_delimiter(option.vested, :delimiter => ',') %></td>
+      <td align="center">
+        <% if option.early_exercise == true  %>
+          <span class="fa fa-ok red"></span>
+        <% else %>
+          <span class="fa fa-ban"></span>
+        <% end %>
+      </td>
+      <td><%= link_to company_optionplan_path(@company, option.optionplan_id) do %><%= option.optionplan.plan_title %><%end%></td>
+      <td><%= link_to company_resolution_path(@company, option.resolution_id) do %><%= option.resolution.title %><% end %></td>
+      <td><%= option.status %></td>
+      <td><%= option.active %></td>
+      <td><%= option.notes %></td>
+      <% if option.option_document.attached?  %>
+        <td align="center"><%= link_to image_pack_tag("pdf_icon.png"), company_option_path(@company, option) %></td>
+      <% else %>
+        <td align="center"><%= link_to company_option_path(@company, option) do %>
+            <span class="fa fa-ban"></span>
+          <% end %>
+        </td>
+        </tr>
+      <% end %>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div class="page-header">
+  <% if current_user.editor? %>
+    <%= link_to new_company_option_path, :class => 'btn btn-primary float-right' do %>
+      <span class="fa fa-plus"></span>
+      New Option
+    <% end %>
+  <% end %>
+</div>

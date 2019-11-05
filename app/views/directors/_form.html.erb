@@ -1,0 +1,38 @@
+
+<%= simple_form_for [@company, @director] do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+  <div class="float-right"><%= f.error_notification %>
+    <%= link_to new_company_person_path, :class => 'btn btn-primary btn-sm float-right' do %>
+      <span class="fa fa-plus"></span>
+      Person
+    <% end %>
+  </div>
+  <div class="form-inputs">
+
+    <%= f.input :person_id do %>
+      <%= f.select :person_id, Person.where(company_id: @company.id).order('name ASC').all.map{ |i|[i.name, i.id] }, :selected => @director.person_id, :include_blank => "Choose a name"  %>
+    <% end %>
+
+    <br/>
+    <%= f.input :resolution_id do %>
+      <%= f.select :resolution_id, Resolution.where(company_id: @company.id).order('title ASC').all.map{ |i|[i.title, i.id] }, :selected => @director.resolution_id, :include_blank => "Choose Resolution"  %>
+    <% end %>
+
+    <br/>
+    <%= f.input :director_class %>
+    <%= f.input :term %>
+    <%= f.input :start_date, :include_blank => true, as: :string, input_html: { class: "datepicker" }  %>
+    <%= f.input :notes %>
+    <br/>
+    <%= f.file_field :director_document %>
+    <br/>
+    <br/>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                company_advisors_path, :class => 'btn' %>
+  </div>
+<% end %>

@@ -1,0 +1,119 @@
+<div class="page-header">
+  <%= link_to company_convertiblenotes_path, :class => 'btn btn-primary float-right' do %>
+    <span class="fa fa-list-alt"></span>
+    List
+  <% end %>
+  <% if current_user.editor? %>
+    <%= link_to edit_company_convertiblenote_path(@company, @convertiblenote), :class => 'btn btn-primary float-right' do %>
+      <span class="fa fa-edit"></span>
+      Edit
+    <% end %>
+  <% end %>
+  <h1>Show Note</h1>
+</div>
+
+<div class="card-group card border-success mb-3">
+  <div class="card">
+    <div class="card-header border-success">Note Holder:</div>
+    <div class="card-body">
+
+      <ul class="list-unstyled row">
+
+        <li class="col-sm-4 font-weight-bold">Agreement date:</li>
+        <li class="col-sm-8"><%= @convertiblenote.note_type %></li>
+
+        <li class="col-sm-4 font-weight-bold">Note type:</li>
+        <li class="col-sm-8"><%= @convertiblenote.note_date %></li>
+
+        <li class="col-sm-4 font-weight-bold">Note amount:</li>
+        <li class="col-sm-8"><%= @convertiblenote.note_amount %></li>
+
+        <li class="col-sm-4 font-weight-bold">Note date:</li>
+        <li class="col-sm-8"><%= @convertiblenote.note_date %></li>
+
+        <li class="col-sm-4 font-weight-bold">Maturity date:</li>
+        <li class="col-sm-8"><%= @convertiblenote.maturity_date %></li>
+
+        <li class="col-sm-4 font-weight-bold">Note amout:</li>
+        <li class="col-sm-8"><%= @convertiblenote.note_amount %></li>
+
+        <li class="col-sm-4 font-weight-bold">Interest rate:</li>
+        <li class="col-sm-8"><%= @convertiblenote.interest_rate %></li>
+
+        <li class="col-sm-4 font-weight-bold">Discount:</li>
+        <li class="col-sm-8"><%= @convertiblenote.discount_rate %></li>
+
+
+      </ul>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header border-success"><%= link_to company_person_path(@company, @convertiblenote.person_id) do %><%= @convertiblenote.person.name %><%end%></div>
+    <div class="card-body">
+
+      <ul class="list-unstyled row">
+        <li class="col-sm-4 font-weight-bold">Share cap:</li>
+        <li class="col-sm-8"><%= @convertiblenote.share_cap %></li>
+
+        <li class="col-sm-4 font-weight-bold">Qualified finance:</li>
+        <li class="col-sm-8"><%= @convertiblenote.qualified_finance %></li>
+
+        <li class="col-sm-4 font-weight-bold">Conversion shares:</li>
+        <li class="col-sm-8"><%= link_to company_stockplan_path(@company, @convertiblenote.stockplan_id) do %><%= @convertiblenote.stockplan.series %><%end%></li>
+
+        <li class="col-sm-4 font-weight-bold">Status:</li>
+        <li class="col-sm-8"><%= @convertiblenote.status %></li>
+
+        <li class="col-sm-4 font-weight-bold">Converted:</li>
+        <li class="col-sm-8">
+          <% if @convertiblenote.converted?  %>
+            <span class="fa fa-circle-check green"></span>
+          <% else %>
+            <span class="fa fa-ban red"></span>
+          <% end %>
+        </li>
+
+        <li class="col-sm-4 font-weight-bold">Conversion date:</li>
+        <li class="col-sm-8"><%= @convertiblenote.conversion_date %></li>
+
+        <li class="col-sm-4 font-weight-bold">Notes:</li>
+        <li class="col-sm-8"><%= @convertiblenote.notes %></li>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<br/>
+<br/>
+<% if @convertiblenote.convertiblenote_document.attached? %>
+  <object data= "<%= rails_blob_path(@convertiblenote.convertiblenote_document, disposition: "convertiblenote_document") %>"
+          type="application/pdf"
+          class="pdf"
+          width="1000"
+          height="1000">
+    <p>It appears you don't have a PDF plugin for this browser.</p>
+  </object>
+  <br/>
+
+  <% if @convertiblenote.convertiblenote_document.previewable? %>
+    <%= link_to(image_pack_tag( @convertiblenote.convertiblenote_document.preview(resize: "400x400>")),  rails_blob_path( @convertiblenote.convertiblenote_document, disposition: "@onvertiblenote_document")) %>
+  <% elsif  @convertiblenote.convertiblenote_document.variable? %>
+    <%= link_to(image_pack_tag(@convertiblenotete.convertiblenote_document.variant(resize: "400x400")), rails_blob_path( @note.convertiblenote_document, disposition: "convertiblenote_document"))%>
+  <% else %>
+  <% end %>
+  <%= link_to "Download file", rails_blob_path(@convertiblenote.convertiblenote_document, disposition: "convertiblenote_document") %>
+
+<% else %>
+  <div class="card w-50 mx-auto">
+    <div class="card-header">
+      No Document Attached
+    </div>
+  </div>
+  </div>
+<% end %>
+
+<br/>
+<br/>
+<br/>
+<br/>

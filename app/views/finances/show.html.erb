@@ -1,0 +1,82 @@
+<div class="page-header">
+
+  <%= link_to company_finances_path, :class => 'btn btn-primary float-right' do %>
+    <span class="fa fa-list-alt"></span>
+    List
+  <% end %>
+  <% if current_user.editor? %>
+    <%= link_to edit_company_finance_path(@company, @finance), :class => 'btn btn-primary float-right' do %>
+      <span class="fa fa-edit"></span>
+      Edit
+    <% end %>
+  <% end %>
+  <h1>Show Finance</h1>
+</div>
+
+<div class="card">
+  <div class="card-header border-success">
+    Show Finance Document - <%= @finance.title %>
+  </div>
+  <div class="card-body">
+
+    <ul class="list-unstyled row">
+
+      <li class="col-sm-4 font-weight-bold">Title:</li>
+      <li class="col-sm-8"><%= @finance.title %></li>
+
+      <li class="col-sm-4 font-weight-bold">Doc date:</li>
+      <li class="col-sm-8"><%= @finance.doc_date %></li>
+
+      <li class="col-sm-4 font-weight-bold">Type:</li>
+      <li class="col-sm-8"><%= @finance.category %></li>
+
+      <li class="col-sm-4 font-weight-bold">Description:</li>
+      <li class="col-sm-8"><%= @finance.description %></li>
+
+      <li class="col-sm-4 font-weight-bold">Complete:</li>
+      <li class="col-sm-8"><%= @finance.complete %></li>
+
+
+      <li class="col-sm-4 font-weight-bold">Type:</li>
+      <li class="col-sm-8"><%= link_to company_stockplan_path(@company, @finance.stockplan_id) do %><%= @finance.stockplan.series %><%end%></li>
+
+      <li class="col-sm-4 font-weight-bold">Notes:</li>
+      <li class="col-sm-8"><%= @finance.notes %></li>
+
+
+    </ul>
+  </div>
+</div>
+
+<br/>
+<br/>
+
+<% if @finance.finance_document.attached? %>
+  <object data= "<%= rails_blob_path(@finance.finance_document, disposition: "finance_document") %>"
+          type="application/pdf"
+          class="pdf"
+          width="1000"
+          height="1000">
+    <p>It appears you don't have a PDF plugin for this browser.</p>
+  </object>
+  <br/>
+
+  <% if @finance.finance_document.previewable? %>
+    <%= link_to(image_tag( @finance.finance_document.preview(resize: "400x400>")),  rails_blob_path( @finance.finance_document, disposition: "finance_document")) %>
+  <% elsif @finance.finance_document.variable? %>
+    <%= link_to(image_tag( @finance.finance_document.variant(resize: "400x400")), rails_blob_path( @finance.finance_document, disposition: "finance_document"))%>
+  <% else %>
+  <% end %>
+  <%= link_to "Download file", rails_blob_path(@finance.finance_document, disposition: "finance_document") %>
+
+<% else %>
+  <div class="card w-50 mx-auto">
+    <div class="card-header">
+      No Document Attached
+    </div>
+  </div>
+  </div>
+<% end %>
+<br/>
+<br/>
+<br/>

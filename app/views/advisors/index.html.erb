@@ -1,0 +1,46 @@
+<div class="page-header">
+  <% if current_user.editor? %>
+    <%= link_to new_company_advisor_path, :class => 'btn btn-primary float-right' do %>
+    <span class="fa fa-plus"></span>
+    New Advisor
+    <% end %>
+  <% end %>
+  <h1>Advisors</h1>
+</div>
+
+<div class="table-responsive">
+  <table role='datatable' id="advisorsTable" class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+            <th>Name</th>
+            <th>Board</th>
+            <th>Start date</th>
+            <th>Term</th>
+            <th>Compensation</th>
+            <th>Notes</th>
+            <th>View</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @advisors.each do |advisor| %>
+        <tr>
+          <td><%= link_to company_person_path(@company, advisor.person_id) do %><%= advisor.person.name %><%end%></td>
+          <td><%= advisor.board %></td>
+          <td><%= advisor.start_date %></td>
+          <td><%= advisor.term %></td>
+          <td><%= advisor.compensation %></td>
+          <td><%= advisor.notes %></td>
+          <td align="center">
+            <% if advisor.advisor_document.attached?  %>
+              <%= link_to image_pack_tag("pdf_icon.png"), company_advisor_path(@company, advisor) %>
+            <% else %>
+              <%= link_to company_advisor_path(@company, advisor) do %>
+                <span class="fa fa-ban"></span>
+              <% end %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

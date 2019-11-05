@@ -1,0 +1,68 @@
+<% content_for :for_head do %>
+  <%= javascript_pack_tag 'chartkick', 'data-turbolinks-eval': false, defer: true %>
+<% end %>
+
+<div class="page-header">
+  <%= link_to dashboard_company_options_path, :class => 'btn btn-primary float-right' do %>
+      <span class="fa fa-tachometer-alt"></span>
+      Options Dashboard
+  <% end %>
+  <%= link_to dashboard_company_shares_path, :class => 'btn btn-primary float-right' do %>
+      <span class="fa fa-tachometer-alt"></span>
+      Shares Dashboard
+  <% end %>
+  <h1>New Round Calculator</h1>
+</div>
+
+<div class="card w-50 mx-auto">
+  <div class="card-header">
+    Add New Financing
+  </div>
+  <div class="card-body">
+    <%= form_tag do  %>
+      <div class="form-group">
+        <%= label_tag(:newround, "Amount Raised:") %>
+        <%= text_field_tag(:newround) %>
+      </div>
+      <div class="form-group">
+        <%= label_tag(:pricepershare, "Price Per Share:")  %>
+        <%= text_field_tag(:pricepershare) %>
+      </div>
+      <%= submit_tag 'Calculate' %>
+    <% end %>
+  </div>
+</div>
+
+<br/>
+
+<div class="card-group card border-success mb-3">
+  <div class="card">
+    <div class="card-header bg-transparent border-success">New Round</div>
+    <div class="card-body">
+
+      <ul class="list-unstyled row">
+        <li class="list-item col-sm-4">New Round Amount:</li>
+        <li class="list-item col-sm-8"><%= number_to_currency(@newround, precision: 0) %></li>
+        <li class="list-item col-sm-4">Price per Share:</li>
+        <li class="list-item col-sm-8"><%= number_to_currency(@pricepershare) %></li>
+        <li class="list-item col-sm-4">Round Shares:</li>
+        <li class="list-item col-sm-8"><%= number_with_precision(@roundshares, precision: 0, delimiter: ',') %></li>
+        <li class="list-item col-sm-4">Post-Round Shares:</li>
+        <li class="list-item col-sm-8"><%= number_with_precision(@postshares, precision: 0, delimiter: ',') %></li>
+        <li class="list-item col-sm-4">Pre-Money:</li>
+        <li class="list-item col-sm-8"><%= number_to_currency(@premoney) %></li>
+        <li class="list-item col-sm-4">Post-Money:</li>
+        <li class="list-item col-sm-8"><%=  number_to_currency(@postmoney) %></li>
+      </ul>
+
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header bg-transparent border-success">New Round Fully Diluted</div>
+    <div class="card-body">
+
+      <%= tag.div id: 'shareNewroundFullyDiluted-pie-chart', data: { shares: shares_newround_fullydiluted.to_json } %>
+
+    </div>
+  </div>
+</div>
